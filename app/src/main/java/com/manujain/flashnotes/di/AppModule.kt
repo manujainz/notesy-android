@@ -10,11 +10,18 @@ import com.manujain.flashnotes.domain.usecase.DeleteNote
 import com.manujain.flashnotes.domain.usecase.GetNote
 import com.manujain.flashnotes.domain.usecase.GetNotes
 import com.manujain.flashnotes.domain.usecase.NotesUsecase
+import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 class AppModule {
 
     @Provides
+    @Singleton
     fun provideApplication() = MainApplication.instance
 
     @Provides
@@ -27,11 +34,13 @@ class AppModule {
     }
 
     @Provides
+    @Singleton
     fun provideNoteRepository(db: NotesDatabase): NotesRepository {
         return NotesRepositoryImpl(db.noteDao)
     }
 
     @Provides
+    @Singleton
     fun getNotesUsecase(notesRepository: NotesRepository): NotesUsecase {
         return NotesUsecase(
             addNote = AddNote(notesRepository),

@@ -10,7 +10,7 @@ data class Note(
     val content: String,
     val color: Int,
     val timestamp: Long,
-    @PrimaryKey val id: Int? = null
+    @PrimaryKey val id: String
 ) {
     companion object {
         val colors = listOf(Color.RED, Color.BLUE, Color.CYAN, Color.LTGRAY, Color.MAGENTA, Color.YELLOW, Color.WHITE)

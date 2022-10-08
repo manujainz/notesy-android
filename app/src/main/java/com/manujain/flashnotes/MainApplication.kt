@@ -1,10 +1,10 @@
 package com.manujain.flashnotes
 
 import android.app.Application
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
-@HiltViewModel
+@HiltAndroidApp
 class MainApplication: Application() {
 
     companion object {
