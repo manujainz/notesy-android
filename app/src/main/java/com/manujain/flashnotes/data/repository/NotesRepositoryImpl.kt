@@ -15,7 +15,7 @@ class NotesRepositoryImpl(private val dao: NoteDao): NotesRepository {
         return dao.getNote(noteId)
     }
 
-    override suspend fun addNote(note: Note) {
+    override suspend fun insertNote(note: Note) {
         return dao.insertNote(note)
     }
 
