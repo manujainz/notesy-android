@@ -7,6 +7,7 @@ import com.manujain.flashnotes.domain.repository.NotesRepository
 class AddNote(
     private val notesRepository: NotesRepository
 ) {
+    @Throws(InvalidNoteException::class)
     suspend operator fun invoke(note: Note) {
         if (note.title.isBlank()) {
             throw InvalidNoteException("Invalid Note. Title is empty")

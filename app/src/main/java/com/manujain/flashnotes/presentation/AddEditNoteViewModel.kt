@@ -2,6 +2,7 @@ package com.manujain.flashnotes.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.manujain.flashnotes.domain.model.InvalidNoteException
 import com.manujain.flashnotes.domain.model.Note
 import com.manujain.flashnotes.domain.usecase.NotesUsecase
 import com.manujain.flashnotes.domain.utils.AddEditNoteUiEvent
@@ -10,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -35,15 +37,19 @@ class AddEditNoteViewModel @Inject constructor(
 
     private fun addNote() {
         viewModelScope.launch {
-            notesUseCase.addNote(
-                Note(
-                    title = noteState.value.title,
-                    content = noteState.value.content,
-                    color = noteState.value.color,
-                    timestamp = System.currentTimeMillis(),
-                    id = currentNote?.id ?: UUID.randomUUID().toString()
+            try {
+                notesUseCase.addNote(
+                    Note(
+                        title = noteState.value.title,
+                        content = noteState.value.content,
+                        color = noteState.value.color,
+                        timestamp = System.currentTimeMillis(),
+                        id = currentNote?.id ?: UUID.randomUUID().toString()
+                    )
                 )
-            )
+            } catch (e: InvalidNoteException) {
+                Timber.e(e, e.message)
+            }
         }
     }
 
