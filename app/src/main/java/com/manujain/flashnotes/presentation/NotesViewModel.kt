@@ -8,8 +8,10 @@ import com.manujain.flashnotes.domain.utils.NotesOrder
 import com.manujain.flashnotes.domain.utils.NotesUiEvent
 import com.manujain.flashnotes.domain.utils.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,6 +23,8 @@ class NotesViewModel @Inject constructor(
 
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
     val notes =  _notes.asStateFlow()
+
+    private var notesJob: Job? = null
 
     init {
         getNotes(NotesOrder.Date(OrderType.DESCENDING))
@@ -39,8 +43,9 @@ class NotesViewModel @Inject constructor(
 
     private fun getNotes(notesOrder: NotesOrder) {
         // check if the job handle needs to be cancelled after every invocation
-        notesUsecase.getNotes(notesOrder).onEach { notes ->
+        notesJob?.cancel()
+        notesJob = notesUsecase.getNotes(notesOrder).onEach { notes ->
             _notes.value = notes
-        }
+        }.launchIn(viewModelScope)
     }
 }
