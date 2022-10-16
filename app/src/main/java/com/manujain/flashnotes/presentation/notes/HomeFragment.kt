@@ -1,4 +1,4 @@
-package com.manujain.flashnotes.presentation
+package com.manujain.flashnotes.presentation.notes
 
 import android.os.Bundle
 import android.view.LayoutInflater
