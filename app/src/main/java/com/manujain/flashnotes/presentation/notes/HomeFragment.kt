@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manujain.flashnotes.databinding.FragmentHomeBinding
@@ -22,6 +23,8 @@ class HomeFragment: Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private val adapter: NotesAdapter by lazy { NotesAdapter() }
+
     private val notesViewModel by viewModels<NotesViewModel>()
 
     override fun onCreateView(
@@ -32,13 +35,12 @@ class HomeFragment: Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         initNotesUi()
+        initObservers()
         return binding.root
     }
 
     private fun initNotesUi() {
         val recyclerView = binding.notesRV
-        val adapter = NotesAdapter()
-
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
 
@@ -50,6 +52,13 @@ class HomeFragment: Fragment() {
             }
         )
 
+        binding.addFab.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToAddEditNoteFragment()
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun initObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 notesViewModel.notes.collectLatest {
