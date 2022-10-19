@@ -1,13 +1,14 @@
 package com.manujain.flashnotes.presentation.addeditnotes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.manujain.flashnotes.domain.model.InvalidNoteException
 import com.manujain.flashnotes.domain.model.Note
 import com.manujain.flashnotes.domain.usecase.NotesUsecase
 import com.manujain.flashnotes.domain.utils.AddEditNoteUiEvent
 import com.manujain.flashnotes.domain.utils.NoteState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ class AddEditNoteViewModel @Inject constructor(
     private val _noteState = MutableStateFlow(NoteState())
     val noteState = _noteState.asStateFlow()
 
-    var currentNote: Note? = null
+    private var currentNote: Note? = null
 
     fun onEvent(event: AddEditNoteUiEvent) {
         when(event) {
@@ -35,8 +36,10 @@ class AddEditNoteViewModel @Inject constructor(
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun addNote() {
-        viewModelScope.launch {
+        // Need to explore better approach than launching in global scope
+        GlobalScope.launch {
             try {
                 notesUseCase.addNote(
                     Note(
