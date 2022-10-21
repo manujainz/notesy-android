@@ -51,7 +51,7 @@ class AddEditNoteFragment: Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    Timber.d("Add Note Event dispatched.")
+                    Timber.d("Back Button Pressed. Add Note Event dispatched.")
                     viewModel.onEvent(AddEditNoteUiEvent.AddNote)
                     findNavController().popBackStack()
                 }
