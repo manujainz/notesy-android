@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs'
+    id "org.jlleitschuh.gradle.ktlint" version "11.0.0"
 }
 
 android {
@@ -34,6 +35,21 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+}
+
+tasks.getByPath("preBuild").dependsOn("ktlintFormat")
+
+// For more setup options
+// https://github.com/JLLeitschuh/ktlint-gradle#idea-plugin-simple-setup
+ktlint {
+    android = true
+    ignoreFailures = false
+    disabledRules = ["max-line-length"]
+    reporters {
+        reporter "plain"
+        reporter "checkstyle"
+        reporter "sarif"
     }
 }
 
