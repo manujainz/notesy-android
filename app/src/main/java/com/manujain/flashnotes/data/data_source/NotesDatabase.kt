@@ -8,12 +8,11 @@ import com.manujain.flashnotes.domain.model.Note
     entities = [Note::class],
     version = 1
 )
-abstract class NotesDatabase: RoomDatabase() {
+abstract class NotesDatabase : RoomDatabase() {
 
     abstract val noteDao: NoteDao
 
     companion object {
         const val DB_NAME = "notes_db"
     }
-
 }

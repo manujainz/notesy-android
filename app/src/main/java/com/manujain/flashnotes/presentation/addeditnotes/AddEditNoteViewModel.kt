@@ -7,19 +7,19 @@ import com.manujain.flashnotes.domain.usecase.NotesUsecase
 import com.manujain.flashnotes.domain.utils.AddEditNoteUiEvent
 import com.manujain.flashnotes.domain.utils.NoteState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
+import javax.inject.Inject
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
-import javax.inject.Inject
 
 @HiltViewModel
 class AddEditNoteViewModel @Inject constructor(
     private val notesUseCase: NotesUsecase
-): ViewModel() {
+) : ViewModel() {
 
     private val _noteState = MutableStateFlow(NoteState())
     val noteState = _noteState.asStateFlow()
@@ -27,7 +27,7 @@ class AddEditNoteViewModel @Inject constructor(
     private var currentNote: Note? = null
 
     fun onEvent(event: AddEditNoteUiEvent) {
-        when(event) {
+        when (event) {
             is AddEditNoteUiEvent.DeleteNote -> {}
             is AddEditNoteUiEvent.OnColorChange -> _noteState.value = noteState.value.copy(color = event.color)
             is AddEditNoteUiEvent.OnTitleChange -> _noteState.value = noteState.value.copy(title = event.title)
@@ -55,5 +55,4 @@ class AddEditNoteViewModel @Inject constructor(
             }
         }
     }
-
 }

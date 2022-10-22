@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -45,7 +45,7 @@ class HomeFragment: Fragment() {
         recyclerView.adapter = adapter
 
         adapter.registerAdapterDataObserver(
-            object: RecyclerView.AdapterDataObserver() {
+            object : RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                     recyclerView.scrollToPosition(positionStart)
                 }
@@ -72,5 +72,4 @@ class HomeFragment: Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

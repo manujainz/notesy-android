@@ -5,7 +5,7 @@ import com.manujain.flashnotes.domain.model.Note
 import com.manujain.flashnotes.domain.repository.NotesRepository
 import kotlinx.coroutines.flow.Flow
 
-class NotesRepositoryImpl(private val dao: NoteDao): NotesRepository {
+class NotesRepositoryImpl(private val dao: NoteDao) : NotesRepository {
 
     override fun getNotes(): Flow<List<Note>> {
         return dao.getNotes()

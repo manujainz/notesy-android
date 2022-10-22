@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manujain.flashnotes.databinding.NoteViewHolderBinding
 import com.manujain.flashnotes.domain.model.Note
 
-
-class NotesAdapter: ListAdapter<Note, NotesAdapter.NoteViewHolder>(DIFF_CALLBACK) {
+class NotesAdapter : ListAdapter<Note, NotesAdapter.NoteViewHolder>(DIFF_CALLBACK) {
 
     class NoteViewHolder(val binding: NoteViewHolderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(note: Note) {
@@ -27,7 +26,7 @@ class NotesAdapter: ListAdapter<Note, NotesAdapter.NoteViewHolder>(DIFF_CALLBACK
     }
 }
 
-val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Note>() {
+val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Note>() {
     override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
         return oldItem.id == newItem.id
     }
