@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class AddEditNoteFragment: Fragment() {
+class AddEditNoteFragment : Fragment() {
 
     private var _binding: FragmentAddEditNoteBinding? = null
     private val binding get() = _binding!!
@@ -49,12 +49,14 @@ class AddEditNoteFragment: Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     Timber.d("Back Button Pressed. Add Note Event dispatched.")
                     viewModel.onEvent(AddEditNoteUiEvent.AddNote)
                     findNavController().popBackStack()
                 }
-            })
+            }
+        )
     }
 }

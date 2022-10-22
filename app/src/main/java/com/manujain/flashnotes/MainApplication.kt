@@ -5,7 +5,7 @@ import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 @HiltAndroidApp
-class MainApplication: Application() {
+class MainApplication : Application() {
 
     companion object {
         lateinit var instance: MainApplication

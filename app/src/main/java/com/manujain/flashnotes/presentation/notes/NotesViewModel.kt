@@ -8,13 +8,13 @@ import com.manujain.flashnotes.domain.utils.NotesOrder
 import com.manujain.flashnotes.domain.utils.NotesUiEvent
 import com.manujain.flashnotes.domain.utils.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
@@ -22,7 +22,7 @@ class NotesViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
-    val notes =  _notes.asStateFlow()
+    val notes = _notes.asStateFlow()
 
     private var notesJob: Job? = null
 
@@ -31,7 +31,7 @@ class NotesViewModel @Inject constructor(
     }
 
     suspend fun onEvent(notesUiEvent: NotesUiEvent) {
-        when(notesUiEvent) {
+        when (notesUiEvent) {
             is NotesUiEvent.Order -> getNotes(notesUiEvent.order)
             is NotesUiEvent.DeleteNote -> viewModelScope.launch { deleteNote(notesUiEvent.note) }
         }
