@@ -30,7 +30,7 @@ class NotesViewModel @Inject constructor(
         getNotes(NotesOrder.Date(OrderType.DESCENDING))
     }
 
-    suspend fun onEvent(notesUiEvent: NotesUiEvent) {
+    fun onEvent(notesUiEvent: NotesUiEvent) {
         when (notesUiEvent) {
             is NotesUiEvent.Order -> getNotes(notesUiEvent.order)
             is NotesUiEvent.DeleteNote -> viewModelScope.launch { deleteNote(notesUiEvent.note) }

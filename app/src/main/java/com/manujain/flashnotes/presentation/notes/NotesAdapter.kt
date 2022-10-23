@@ -8,11 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manujain.flashnotes.databinding.NoteViewHolderBinding
 import com.manujain.flashnotes.domain.model.Note
 
-class NotesAdapter : ListAdapter<Note, NotesAdapter.NoteViewHolder>(DIFF_CALLBACK) {
+interface OnNoteItemClickListener {
+    fun onNoteItemClicked(note: Note)
+}
 
-    class NoteViewHolder(val binding: NoteViewHolderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(note: Note) {
+class NotesAdapter(
+    private val noteClickListener: OnNoteItemClickListener
+) : ListAdapter<Note, NotesAdapter.NoteViewHolder>(DIFF_CALLBACK) {
+
+    class NoteViewHolder(private val binding: NoteViewHolderBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(note: Note, listener: OnNoteItemClickListener) {
             binding.noteTitle.text = note.title
+            binding.root.setOnClickListener {
+                listener.onNoteItemClicked(note)
+            }
         }
     }
 
@@ -22,7 +32,7 @@ class NotesAdapter : ListAdapter<Note, NotesAdapter.NoteViewHolder>(DIFF_CALLBAC
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.bind(currentList[position])
+        holder.bind(currentList[position], noteClickListener)
     }
 }
 
