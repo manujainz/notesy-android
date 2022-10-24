@@ -5,5 +5,6 @@ import com.manujain.flashnotes.domain.model.Note
 data class NoteState(
     val title: String = "",
     val content: String = "",
-    val color: Int = Note.colors.random()
+    val color: Int = Note.colors.random(),
+    val isLoading: Boolean = false
 )

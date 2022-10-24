@@ -11,7 +11,12 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_addEditNoteFragment"
-            app:destination="@id/addEditNoteFragment" />
+            app:destination="@id/addEditNoteFragment">
+            <argument
+                android:name="noteId"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
     </fragment>
 
     <fragment

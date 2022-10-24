@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
 
         val adapter = NotesAdapter(object : OnNoteItemClickListener {
             override fun onNoteItemClicked(note: Note) {
-                // TODO need to handle
+                navigateToAddEditNoteFragment(note.id)
             }
         })
 
@@ -58,8 +58,7 @@ class HomeFragment : Fragment() {
         )
 
         binding.addFAB.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToAddEditNoteFragment()
-            findNavController().navigate(action)
+            navigateToAddEditNoteFragment()
         }
 
         lifecycleScope.launch {
@@ -69,6 +68,11 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun navigateToAddEditNoteFragment(noteId: String? = null) {
+        val action = HomeFragmentDirections.actionHomeFragmentToAddEditNoteFragment(noteId)
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
