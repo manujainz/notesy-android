@@ -36,10 +36,13 @@ class AddEditNoteFragment : Fragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentAddEditNoteBinding.inflate(inflater, container, false)
-
-        initUi()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initUi()
+        initObservers()
     }
 
     private fun initUi() {
@@ -55,6 +58,19 @@ class AddEditNoteFragment : Fragment() {
             )
         }
 
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Timber.d("Back Button Pressed. Add Note Event dispatched.")
+                    viewModel.onEvent(AddEditNoteUiEvent.AddNote)
+                    findNavController().popBackStack()
+                }
+            }
+        )
+    }
+
+    private fun initObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.noteState.collectLatest { noteState ->
@@ -68,16 +84,5 @@ class AddEditNoteFragment : Fragment() {
                 }
             }
         }
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    Timber.d("Back Button Pressed. Add Note Event dispatched.")
-                    viewModel.onEvent(AddEditNoteUiEvent.AddNote)
-                    findNavController().popBackStack()
-                }
-            }
-        )
     }
 }
