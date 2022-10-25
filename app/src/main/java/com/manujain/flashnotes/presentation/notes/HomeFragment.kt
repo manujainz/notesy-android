@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
 import com.manujain.flashnotes.databinding.FragmentHomeBinding
 import com.manujain.flashnotes.domain.model.Note
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +26,8 @@ class HomeFragment : Fragment() {
 
     private val notesViewModel by viewModels<NotesViewModel>()
 
+    private lateinit var notesAdapter: NotesAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,42 +35,47 @@ class HomeFragment : Fragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        initNotesUi()
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initNotesUi()
+        initObservers()
+    }
+
     private fun initNotesUi() {
-        val recyclerView = binding.notesRV
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        val notesRecyclerView = binding.notesRV
+        notesRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = NotesAdapter(object : OnNoteItemClickListener {
+        notesAdapter = NotesAdapter(object : OnNoteItemClickListener {
             override fun onNoteItemClicked(note: Note) {
-                // TODO need to handle
+                navigateToAddEditNoteFragment(note.id)
             }
-        })
-
-        recyclerView.adapter = adapter
-
-        adapter.registerAdapterDataObserver(
-            object : RecyclerView.AdapterDataObserver() {
-                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    recyclerView.scrollToPosition(positionStart)
-                }
-            }
-        )
-
-        binding.addFAB.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToAddEditNoteFragment()
-            findNavController().navigate(action)
+        }).apply {
+            stateRestorationPolicy = StateRestorationPolicy.ALLOW
         }
 
+        notesRecyclerView.adapter = notesAdapter
+    }
+
+    private fun initObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 notesViewModel.notes.collectLatest {
-                    adapter.submitList(it)
+                    notesAdapter.submitList(it)
                 }
             }
         }
+
+        binding.addFAB.setOnClickListener {
+            navigateToAddEditNoteFragment()
+        }
+    }
+
+    private fun navigateToAddEditNoteFragment(noteId: String? = null) {
+        val action = HomeFragmentDirections.actionHomeFragmentToAddEditNoteFragment(noteId)
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

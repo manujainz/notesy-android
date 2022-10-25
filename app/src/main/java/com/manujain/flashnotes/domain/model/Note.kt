@@ -22,6 +22,8 @@ data class Note(
             Color.YELLOW,
             Color.WHITE
         )
+
+        const val NOTE_ID = "noteId"
     }
 }
 

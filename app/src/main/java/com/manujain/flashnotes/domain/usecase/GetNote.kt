@@ -7,7 +7,7 @@ class GetNote(
     private val notesRepository: NotesRepository
 ) {
 
-    suspend operator fun invoke(id: Int): Note {
+    suspend operator fun invoke(id: String): Note {
         return notesRepository.getNote(id)
     }
 }
