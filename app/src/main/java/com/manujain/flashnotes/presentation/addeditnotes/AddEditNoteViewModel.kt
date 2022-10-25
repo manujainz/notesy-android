@@ -3,13 +3,13 @@ package com.manujain.flashnotes.presentation.addeditnotes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.manujain.flashnotes.core.isDiff
 import com.manujain.flashnotes.domain.model.InvalidNoteException
 import com.manujain.flashnotes.domain.model.Note
 import com.manujain.flashnotes.domain.model.Note.Companion.NOTE_ID
 import com.manujain.flashnotes.domain.usecase.NotesUsecase
 import com.manujain.flashnotes.domain.utils.AddEditNoteUiEvent
 import com.manujain.flashnotes.domain.utils.NoteState
-import com.manujain.flashnotes.domain.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import javax.inject.Inject
@@ -56,22 +56,16 @@ class AddEditNoteViewModel @Inject constructor(
             is AddEditNoteUiEvent.OnColorChange -> _noteState.value = noteState.value.copy(color = event.color)
             is AddEditNoteUiEvent.OnTitleChange -> _noteState.value = noteState.value.copy(title = event.title)
             is AddEditNoteUiEvent.OnContentChange -> _noteState.value = noteState.value.copy(content = event.content)
-            is AddEditNoteUiEvent.AddNote -> addNote(currentNote, noteState.value)
-        }
-    }
-
-    private fun addNote(currentNote: Note?, noteState: NoteState) {
-        if (currentNote == null) {
-            addNote(noteState)
-        } else {
-            if (Utils.didNoteContentChange(currentNote, noteState)) {
-                addNote(noteState, currentNote.id)
+            is AddEditNoteUiEvent.AddNote -> {
+                if (currentNote.isDiff(noteState.value)) {
+                    addNote(noteState.value, currentNote)
+                }
             }
         }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    private fun addNote(noteState: NoteState, noteID: String? = null) {
+    private fun addNote(noteState: NoteState, currentNote: Note? = null) {
         // Need to explore better approach than launching in global scope
         GlobalScope.launch {
             try {
@@ -80,8 +74,8 @@ class AddEditNoteViewModel @Inject constructor(
                         title = noteState.title,
                         content = noteState.content,
                         color = noteState.color,
-                        timestamp = System.currentTimeMillis(),
-                        id = noteID ?: UUID.randomUUID().toString()
+                        timestamp = currentNote?.timestamp ?: System.currentTimeMillis(),
+                        id = currentNote?.id ?: UUID.randomUUID().toString()
                     )
                 )
             } catch (e: InvalidNoteException) {
