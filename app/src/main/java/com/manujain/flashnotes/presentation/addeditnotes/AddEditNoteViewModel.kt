@@ -52,7 +52,7 @@ class AddEditNoteViewModel @Inject constructor(
 
     fun onEvent(event: AddEditNoteUiEvent) {
         when (event) {
-            is AddEditNoteUiEvent.DeleteNote -> {}
+            is AddEditNoteUiEvent.DeleteNote -> { currentNote?.let { deleteNote(currentNote!!) } }
             is AddEditNoteUiEvent.OnColorChange -> _noteState.value = noteState.value.copy(color = event.color)
             is AddEditNoteUiEvent.OnTitleChange -> _noteState.value = noteState.value.copy(title = event.title)
             is AddEditNoteUiEvent.OnContentChange -> _noteState.value = noteState.value.copy(content = event.content)
@@ -81,6 +81,12 @@ class AddEditNoteViewModel @Inject constructor(
             } catch (e: InvalidNoteException) {
                 Timber.e(e, e.message)
             }
+        }
+    }
+
+    private fun deleteNote(note: Note) {
+        viewModelScope.launch {
+            notesUseCase.deleteNote(note)
         }
     }
 }
