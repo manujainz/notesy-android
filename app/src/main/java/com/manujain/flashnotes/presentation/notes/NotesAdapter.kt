@@ -16,6 +16,10 @@ class NotesAdapter(
     private val noteClickListener: OnNoteItemClickListener
 ) : ListAdapter<Note, NotesAdapter.NoteViewHolder>(DIFF_CALLBACK) {
 
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.ALLOW
+    }
+
     class NoteViewHolder(private val binding: NoteViewHolderBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(note: Note, listener: OnNoteItemClickListener) {

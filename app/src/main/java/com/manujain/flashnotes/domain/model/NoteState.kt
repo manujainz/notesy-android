@@ -1,6 +1,4 @@
-package com.manujain.flashnotes.domain.utils
-
-import com.manujain.flashnotes.domain.model.Note
+package com.manujain.flashnotes.domain.model
 
 data class NoteState(
     val title: String = "",

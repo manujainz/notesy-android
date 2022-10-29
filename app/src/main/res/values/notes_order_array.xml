@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="notes_order_array">
+        <item>Date</item>
+        <item>Title</item>
+        <item>Color</item>
+    </string-array>
+</resources>

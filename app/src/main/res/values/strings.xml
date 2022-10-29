@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Flash Notes</string>
     <string name="notes_fragment">Notes Fragment!</string>
+
+    // Notes
+    <string name="order">Order</string>
+
 </resources>

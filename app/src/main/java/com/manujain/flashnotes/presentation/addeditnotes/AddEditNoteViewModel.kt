@@ -7,9 +7,9 @@ import com.manujain.flashnotes.core.isDiff
 import com.manujain.flashnotes.domain.model.InvalidNoteException
 import com.manujain.flashnotes.domain.model.Note
 import com.manujain.flashnotes.domain.model.Note.Companion.NOTE_ID
+import com.manujain.flashnotes.domain.model.NoteState
 import com.manujain.flashnotes.domain.usecase.NotesUsecase
 import com.manujain.flashnotes.domain.utils.AddEditNoteUiEvent
-import com.manujain.flashnotes.domain.utils.NoteState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import javax.inject.Inject
