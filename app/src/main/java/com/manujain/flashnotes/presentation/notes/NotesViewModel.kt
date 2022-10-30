@@ -2,6 +2,7 @@ package com.manujain.flashnotes.presentation.notes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.manujain.flashnotes.core.isDiff
 import com.manujain.flashnotes.domain.model.Note
 import com.manujain.flashnotes.domain.usecase.NotesUsecase
 import com.manujain.flashnotes.domain.utils.NotesOrder
@@ -25,15 +26,25 @@ class NotesViewModel @Inject constructor(
     val notes = _notes.asStateFlow()
 
     private var notesJob: Job? = null
+    private var currentOrder: NotesOrder = NotesOrder.Date(OrderType.DESCENDING)
 
     init {
-        getNotes(NotesOrder.Date(OrderType.DESCENDING))
+        getNotes(currentOrder)
     }
 
     fun onEvent(notesUiEvent: NotesUiEvent) {
         when (notesUiEvent) {
-            is NotesUiEvent.Order -> getNotes(notesUiEvent.order)
-            is NotesUiEvent.DeleteNote -> viewModelScope.launch { deleteNote(notesUiEvent.note) }
+            is NotesUiEvent.Order -> {
+                if (notesUiEvent.order.isDiff(currentOrder)) {
+                    currentOrder = notesUiEvent.order
+                    getNotes(notesUiEvent.order)
+                }
+            }
+            is NotesUiEvent.DeleteNote -> {
+                viewModelScope.launch {
+                    deleteNote(notesUiEvent.note)
+                }
+            }
         }
     }
 
