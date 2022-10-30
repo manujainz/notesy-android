@@ -50,23 +50,27 @@ class HomeFragment : Fragment(), OnNoteItemClickListener {
     }
 
     private fun initNotesUi() {
-        val notesRecyclerView = binding.notesRV
-        notesRecyclerView.layoutManager = LinearLayoutManager(activity)
-        notesRecyclerView.adapter = notesAdapter
+        // Notes List
+        binding.notesRV.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = notesAdapter
+        }
     }
 
     private fun initUiControls() {
+        // Notes Order Switching
         ArrayAdapter.createFromResource(
             requireActivity(),
             R.array.notes_order_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinner.adapter = adapter
+            binding.switchNotesOrder.adapter = adapter
         }
     }
 
     private fun initObservers() {
+        // Fetch Notes
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 notesViewModel.notes.collectLatest {
@@ -76,11 +80,13 @@ class HomeFragment : Fragment(), OnNoteItemClickListener {
         }
 
         binding.apply {
-            addFAB.setOnClickListener {
+            // Add Notes
+            addNotes.setOnClickListener {
                 navigateToAddEditNoteFragment()
             }
 
-            spinner.selected { selected ->
+            // on Notes Order Switched
+            switchNotesOrder.selected { selected ->
                 val order = getNotesOrderFromStr(selected, OrderType.DESCENDING)
                 notesViewModel.onEvent(NotesUiEvent.Order(order))
             }
