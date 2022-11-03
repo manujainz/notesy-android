@@ -25,37 +25,41 @@ class NotesViewModel @Inject constructor(
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
     val notes = _notes.asStateFlow()
 
-    private var notesJob: Job? = null
+    private var fetchNotesJob: Job? = null
     private var currentOrder: NotesOrder = NotesOrder.Date(OrderType.DESCENDING)
+    private var recentlyDeletedNote: Note? = null
 
     init {
         getNotes(currentOrder)
     }
 
-    fun onEvent(notesUiEvent: NotesUiEvent) {
-        when (notesUiEvent) {
+    fun onEvent(event: NotesUiEvent) {
+        when (event) {
             is NotesUiEvent.Order -> {
-                if (notesUiEvent.order.isDiff(currentOrder)) {
-                    currentOrder = notesUiEvent.order
-                    getNotes(notesUiEvent.order)
+                if (event.order.isDiff(currentOrder)) {
+                    event.order.also { order ->
+                        currentOrder = order
+                        getNotes(order)
+                    }
                 }
             }
             is NotesUiEvent.DeleteNote -> {
                 viewModelScope.launch {
-                    deleteNote(notesUiEvent.note)
+                    deleteNote(event.note)
                 }
             }
         }
     }
 
     private suspend fun deleteNote(note: Note) {
+        recentlyDeletedNote = note
         notesUsecase.deleteNote(note)
     }
 
     private fun getNotes(notesOrder: NotesOrder) {
-        // check if the job handle needs to be cancelled after every invocation
-        notesJob?.cancel()
-        notesJob = notesUsecase.getNotes(notesOrder).onEach { notes ->
+        // NOTE: Check if the job handle needs to be cancelled after every invocation
+        fetchNotesJob?.cancel()
+        fetchNotesJob = notesUsecase.getNotes(notesOrder).onEach { notes ->
             _notes.value = notes
         }.launchIn(viewModelScope)
     }
