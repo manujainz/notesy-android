@@ -74,8 +74,8 @@ class AddEditNoteViewModel @Inject constructor(
                         title = noteState.title,
                         content = noteState.content,
                         color = noteState.color,
-                        timestamp = currentNote?.timestamp ?: System.currentTimeMillis(),
-                        lastEditedTimestamp = System.currentTimeMillis(),
+                        created = currentNote?.created ?: System.currentTimeMillis(),
+                        lastModified = System.currentTimeMillis(),
                         id = currentNote?.id ?: UUID.randomUUID().toString()
                     )
                 )

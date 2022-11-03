@@ -30,7 +30,7 @@ class AppModule {
             app,
             NotesDatabase::class.java,
             NotesDatabase.DB_NAME
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides

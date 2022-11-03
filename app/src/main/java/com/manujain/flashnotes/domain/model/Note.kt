@@ -9,9 +9,10 @@ data class Note(
     val title: String,
     val content: String,
     val color: Int,
-    val timestamp: Long,
-    val lastEditedTimestamp: Long,
-    @PrimaryKey val id: String
+    val created: Long,
+    val lastModified: Long,
+    @PrimaryKey
+    val id: String
 ) {
     companion object {
         val colors = listOf(

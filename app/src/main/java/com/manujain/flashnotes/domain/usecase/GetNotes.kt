@@ -18,14 +18,14 @@ class GetNotes(
                     when (order) {
                         is NotesOrder.Title -> it.sortedBy { it.title }
                         is NotesOrder.Color -> it.sortedBy { it.color }
-                        is NotesOrder.Date -> it.sortedBy { it.timestamp }
+                        is NotesOrder.Date -> it.sortedBy { it.created }
                     }
                 }
                 OrderType.DESCENDING -> {
                     when (order) {
                         is NotesOrder.Title -> it.sortedByDescending { it.title }
                         is NotesOrder.Color -> it.sortedByDescending { it.color }
-                        is NotesOrder.Date -> it.sortedByDescending { it.timestamp }
+                        is NotesOrder.Date -> it.sortedByDescending { it.created }
                     }
                 }
             }
