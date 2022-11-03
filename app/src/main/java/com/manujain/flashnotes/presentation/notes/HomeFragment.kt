@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.manujain.flashnotes.R
 import com.manujain.flashnotes.core.getNotesOrderFromStr
@@ -24,7 +25,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnNoteItemClickListener {
+class HomeFragment : Fragment(), OnNoteItemUserActivityListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -54,6 +55,11 @@ class HomeFragment : Fragment(), OnNoteItemClickListener {
         binding.notesRV.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = notesAdapter
+            ItemTouchHelper(
+                NoteSwipeHandler { position ->
+                    notesAdapter.deleteNote(position)
+                }
+            ).attachToRecyclerView(this)
         }
     }
 
@@ -95,6 +101,11 @@ class HomeFragment : Fragment(), OnNoteItemClickListener {
 
     override fun onNoteItemClicked(note: Note) {
         navigateToAddEditNoteFragment(note.id)
+    }
+
+    override fun onNoteItemDeleted(note: Note) {
+        // TODO: Implement Snackbar for Undo delete operation
+        notesViewModel.onEvent(NotesUiEvent.DeleteNote(note))
     }
 
     private fun navigateToAddEditNoteFragment(noteId: String? = null) {
