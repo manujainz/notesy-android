@@ -1,5 +1,6 @@
 package com.manujain.flashnotes.presentation.addeditnotes
 
+import android.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,6 +30,9 @@ class AddEditNoteViewModel @Inject constructor(
     private val _noteState = MutableStateFlow(NoteState(isLoading = true))
     val noteState = _noteState.asStateFlow()
 
+    private val _colorState = MutableStateFlow(Color.BLACK)
+    val colorState = _colorState.asStateFlow()
+
     private var currentNote: Note? = null
 
     init {
@@ -46,16 +50,19 @@ class AddEditNoteViewModel @Inject constructor(
                 }
             }
         } else {
-            _noteState.value = NoteState()
+            _noteState.value = NoteState(color = colorState.value)
         }
     }
 
     fun onEvent(event: AddEditNoteUiEvent) {
         when (event) {
             is AddEditNoteUiEvent.DeleteNote -> { currentNote?.let { deleteNote(currentNote!!) } }
-            is AddEditNoteUiEvent.OnColorChange -> _noteState.value = noteState.value.copy(color = event.color)
             is AddEditNoteUiEvent.OnTitleChange -> _noteState.value = noteState.value.copy(title = event.title)
             is AddEditNoteUiEvent.OnContentChange -> _noteState.value = noteState.value.copy(content = event.content)
+            is AddEditNoteUiEvent.OnColorChange -> {
+                _noteState.value = noteState.value.copy(color = event.color)
+                _colorState.value = event.color
+            }
             is AddEditNoteUiEvent.AddNote -> {
                 if (currentNote.isDiff(noteState.value)) {
                     addNote(noteState.value, currentNote)

@@ -8,14 +8,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.manujain.flashnotes.core.launchCoroutineOnStart
 import com.manujain.flashnotes.databinding.FragmentAddEditNoteBinding
+import com.manujain.flashnotes.domain.model.Note
 import com.manujain.flashnotes.domain.utils.AddEditNoteUiEvent
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.CancellationException
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -58,6 +58,10 @@ class AddEditNoteFragment : Fragment() {
             )
         }
 
+        binding.switchColor.setOnClickListener {
+            viewModel.onEvent(AddEditNoteUiEvent.OnColorChange(Note.colors.random()))
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -71,18 +75,28 @@ class AddEditNoteFragment : Fragment() {
     }
 
     private fun initObservers() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+        launchCoroutineOnStart {
+            lifecycleScope.launch {
                 viewModel.noteState.collectLatest { noteState ->
                     if (!noteState.isLoading) {
-
                         binding.titleEditText.setText(noteState.title)
                         binding.contentEditText.setText(noteState.content)
-
+                        setBackground(noteState.color)
+                        // INFO: Cancel collecting flow when existing note (if any) is retrieved
                         this.cancel(CancellationException("Note content retrieved. Upstream not required"))
                     }
                 }
             }
+
+            lifecycleScope.launch {
+                viewModel.colorState.collectLatest { color ->
+                    setBackground(color)
+                }
+            }
         }
+    }
+
+    private fun setBackground(color: Int) {
+        binding.root.setBackgroundColor(color)
     }
 }

@@ -39,6 +39,7 @@ class NotesAdapter(
     class NoteViewHolder(private val binding: NoteViewHolderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(note: Note, listener: OnNoteItemUserActivityListener) {
             binding.noteTitle.text = note.title
+            binding.colorChip.setBackgroundColor(note.color)
             binding.root.setOnClickListener {
                 listener.onNoteItemClicked(note)
             }
