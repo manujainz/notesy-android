@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +15,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.manujain.flashnotes.R
 import com.manujain.flashnotes.core.getNotesOrderFromStr
+import com.manujain.flashnotes.core.launchCoroutineOnStart
 import com.manujain.flashnotes.core.selected
 import com.manujain.flashnotes.databinding.FragmentHomeBinding
 import com.manujain.flashnotes.domain.model.Note
@@ -79,8 +78,8 @@ class HomeFragment : Fragment(), OnNoteItemUserActivityListener {
 
     private fun initObservers() {
         // Fetch Notes
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+        launchCoroutineOnStart {
+            lifecycleScope.launch {
                 notesViewModel.notes.collectLatest {
                     notesAdapter.submitList(it)
                 }
@@ -93,7 +92,7 @@ class HomeFragment : Fragment(), OnNoteItemUserActivityListener {
                 navigateToAddEditNoteFragment()
             }
 
-            // on Notes Order Switched
+            // On Notes Order Switched
             switchNotesOrder.selected { selected ->
                 val order = getNotesOrderFromStr(selected, OrderType.DESCENDING)
                 notesViewModel.onEvent(NotesUiEvent.Order(order))

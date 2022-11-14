@@ -41,6 +41,7 @@ class AddEditNoteViewModel @Inject constructor(
             viewModelScope.launch {
                 notesUseCase.getNote(noteId).also { note ->
                     currentNote = note
+                    _colorState.value = note.color
                     _noteState.value = noteState.value.copy(
                         title = note.title,
                         color = note.color,
