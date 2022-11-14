@@ -5,6 +5,7 @@ import com.manujain.flashnotes.domain.model.Note
 sealed class NotesUiEvent {
     data class Order(val order: NotesOrder) : NotesUiEvent()
     data class DeleteNote(val note: Note) : NotesUiEvent()
+    object RestoreNote : NotesUiEvent()
 }
 
 sealed class AddEditNoteUiEvent {

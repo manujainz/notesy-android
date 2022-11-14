@@ -13,6 +13,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.manujain.flashnotes.R
 import com.manujain.flashnotes.core.getNotesOrderFromStr
 import com.manujain.flashnotes.core.selected
@@ -104,8 +106,27 @@ class HomeFragment : Fragment(), OnNoteItemUserActivityListener {
     }
 
     override fun onNoteItemDeleted(note: Note) {
-        // TODO: Implement Snackbar for Undo delete operation
         notesViewModel.onEvent(NotesUiEvent.DeleteNote(note))
+        showSnackbarNoteDeleted()
+    }
+
+    private fun showSnackbarNoteDeleted() {
+        Snackbar.make(
+            binding.parent,
+            R.string.note_deleted,
+            BaseTransientBottomBar.LENGTH_LONG
+        ).setAction(R.string.restored) {
+            notesViewModel.onEvent(NotesUiEvent.RestoreNote)
+            showSnackbarNoteRestored()
+        }.show()
+    }
+
+    private fun showSnackbarNoteRestored() {
+        Snackbar.make(
+            binding.parent,
+            R.string.restored,
+            BaseTransientBottomBar.LENGTH_LONG
+        ).show()
     }
 
     private fun navigateToAddEditNoteFragment(noteId: String? = null) {

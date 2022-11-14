@@ -48,6 +48,14 @@ class NotesViewModel @Inject constructor(
                     deleteNote(event.note)
                 }
             }
+            is NotesUiEvent.RestoreNote -> {
+                recentlyDeletedNote?.let { note ->
+                    viewModelScope.launch {
+                        notesUsecase.addNote(note)
+                        recentlyDeletedNote = null
+                    }
+                }
+            }
         }
     }
 

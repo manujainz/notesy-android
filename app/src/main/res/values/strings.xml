@@ -4,5 +4,7 @@
 
     // Notes
     <string name="order">Order</string>
+    <string name="restored">Restored</string>
+    <string name="note_deleted">Note Deleted</string>
 
 </resources>
