@@ -17,6 +17,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.manujain.flashnotes.presentation.scribblepad.ScribblePadView
+        android:id="@+id/scribblePad"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <Spinner
         android:id="@+id/switchNotesOrder"
         android:layout_width="wrap_content"
@@ -25,7 +34,7 @@
         android:layout_marginEnd="24dp"
         android:contentDescription="@string/order"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/scribblePad" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notesRV"
