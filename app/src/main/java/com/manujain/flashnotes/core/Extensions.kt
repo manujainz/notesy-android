@@ -7,9 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.manujain.flashnotes.domain.model.Note
-import com.manujain.flashnotes.domain.model.NoteState
-import com.manujain.flashnotes.domain.utils.NotesOrder
+import com.manujain.flashnotes.feature_notes.domain.model.Note
+import com.manujain.flashnotes.feature_notes.domain.model.NoteState
+import com.manujain.flashnotes.feature_notes.domain.utils.NotesOrder
 import kotlinx.coroutines.launch
 
 fun Note?.isDiff(state: NoteState): Boolean {
