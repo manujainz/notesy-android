@@ -2,14 +2,14 @@ package com.manujain.flashnotes.di
 
 import androidx.room.Room
 import com.manujain.flashnotes.MainApplication
-import com.manujain.flashnotes.data.data_source.NotesDatabase
-import com.manujain.flashnotes.data.repository.NotesRepositoryImpl
-import com.manujain.flashnotes.domain.repository.NotesRepository
-import com.manujain.flashnotes.domain.usecase.AddNote
-import com.manujain.flashnotes.domain.usecase.DeleteNote
-import com.manujain.flashnotes.domain.usecase.GetNote
-import com.manujain.flashnotes.domain.usecase.GetNotes
-import com.manujain.flashnotes.domain.usecase.NotesUsecase
+import com.manujain.flashnotes.feature_notes.data.data_source.NotesDatabase
+import com.manujain.flashnotes.feature_notes.data.repository.NotesRepositoryImpl
+import com.manujain.flashnotes.feature_notes.domain.repository.NotesRepository
+import com.manujain.flashnotes.feature_notes.domain.usecase.AddNote
+import com.manujain.flashnotes.feature_notes.domain.usecase.DeleteNote
+import com.manujain.flashnotes.feature_notes.domain.usecase.GetNote
+import com.manujain.flashnotes.feature_notes.domain.usecase.GetNotes
+import com.manujain.flashnotes.feature_notes.domain.usecase.NotesUsecase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -23,7 +23,6 @@
         android:maxLines="1"
         android:textSize="32sp"
         android:hint="give it a title..."
-        android:background="@color/teal_200"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
