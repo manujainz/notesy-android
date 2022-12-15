@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.manujain.flashnotes.feature_scribblepad.presentation.ScribblePadView
+    <com.manujain.notesy.feature_scribblepad.presentation.ScribblePadView
         android:id="@+id/scribblePad"
         android:layout_width="match_parent"
         android:layout_height="200dp"

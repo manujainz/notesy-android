@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Flash Notes</string>
+    <string name="app_name">Notesy</string>
     <string name="notes_fragment">Notes Fragment!</string>
 
     // Notes
