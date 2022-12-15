@@ -14,6 +14,7 @@ import com.manujain.flashnotes.core.launchCoroutineOnStart
 import com.manujain.flashnotes.databinding.FragmentAddEditNoteBinding
 import com.manujain.flashnotes.feature_notes.domain.model.Note
 import com.manujain.flashnotes.feature_notes.domain.utils.AddEditNoteUiEvent
+import com.manujain.flashnotes.ml.GPT2Client
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.cancel
@@ -28,6 +29,8 @@ class AddEditNoteFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<AddEditNoteViewModel>()
+    private val writersBlockVM by viewModels<GPT2Client>()
+    private var initialContent = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +65,15 @@ class AddEditNoteFragment : Fragment() {
             viewModel.onEvent(AddEditNoteUiEvent.OnColorChange(Note.colors.random()))
         }
 
+        binding.summarize.setOnClickListener {
+            writersBlockVM.feedString = viewModel.noteState.value.content
+             writersBlockVM.launchAutocomplete(binding.contentEditText.text.toString())
+        }
+
+        writersBlockVM.completion.observe(viewLifecycleOwner) {
+            binding.contentEditText.setText(writersBlockVM.feedString + it)
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -79,6 +91,7 @@ class AddEditNoteFragment : Fragment() {
             lifecycleScope.launch {
                 viewModel.noteState.collectLatest { noteState ->
                     if (!noteState.isLoading) {
+                        initialContent = noteState.content
                         binding.titleEditText.setText(noteState.title)
                         binding.contentEditText.setText(noteState.content)
                         setBackground(noteState.color)

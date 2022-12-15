@@ -26,6 +26,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -44,13 +48,13 @@ android {
     }
 }
 
-tasks.getByPath("preBuild").dependsOn("ktlintFormat")
+//tasks.getByPath("preBuild").dependsOn("ktlintFormat")
 
 // For more setup options
 // https://github.com/JLLeitschuh/ktlint-gradle#idea-plugin-simple-setup
 ktlint {
     android = true
-    ignoreFailures = false
+    ignoreFailures = true
     disabledRules = ["max-line-length"]
     reporters {
         reporter "plain"
@@ -95,6 +99,9 @@ dependencies {
     // security
     implementation("androidx.security:security-crypto:1.0.0")
 
+    // tensor-flow
+    implementation 'org.tensorflow:tensorflow-lite:2.0.0'
+    
     // testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
