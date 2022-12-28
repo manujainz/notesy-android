@@ -1,5 +1,6 @@
 package com.manujain.notesy.feature_notes.presentation.addeditnotes
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,7 +60,7 @@ class AddEditNoteFragment : Fragment() {
         }
 
         binding.switchColor.setOnClickListener {
-            viewModel.onEvent(AddEditNoteUiEvent.OnColorChange(Note.colors.random()))
+            viewModel.onEvent(AddEditNoteUiEvent.OnColorChange(Color.parseColor(Note.colors.random())))
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(

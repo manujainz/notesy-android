@@ -1,6 +1,5 @@
 package com.manujain.notesy.feature_notes.domain.model
 
-import android.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -16,13 +15,12 @@ data class Note(
 ) {
     companion object {
         val colors = listOf(
-            Color.RED,
-            Color.BLUE,
-            Color.CYAN,
-            Color.LTGRAY,
-            Color.MAGENTA,
-            Color.YELLOW,
-            Color.WHITE
+            "#F7D44C",
+            "#EB7A53",
+            "#98B7DB",
+            "#A8D672",
+            "#F6ECC9",
+            "#000000",
         )
 
         const val NOTE_ID = "noteId"

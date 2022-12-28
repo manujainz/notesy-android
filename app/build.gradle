@@ -95,6 +95,9 @@ dependencies {
     // security
     implementation("androidx.security:security-crypto:1.0.0")
 
+    // fluent-ui
+    // implementation("com.microsoft.fluentui:fluentui_drawer:0.1.13")
+
     // testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
