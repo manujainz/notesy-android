@@ -6,7 +6,7 @@ import com.manujain.notesy.feature_notes.domain.model.Note
 
 @Database(
     entities = [Note::class],
-    version = 1
+    version = 3
 )
 abstract class NotesDatabase : RoomDatabase() {
 

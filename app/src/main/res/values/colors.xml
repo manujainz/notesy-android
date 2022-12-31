@@ -18,4 +18,20 @@
     <color name="textColor_secondary_lightUi">#545454</color>
 
     <color name="scribble_container">#fdcb6e</color>
+
+    <!--    notes french color palette-->
+    <color name="notes_default_lightUi">#F7F7F7</color>
+    <color name="notes_yellow_lightUi">#fad390</color>
+    <color name="notes_blue_lightUi">#6a89cc</color>
+    <color name="notes_teal_lightUi">#82ccdd</color>
+    <color name="notes_orange_lightUi">#fa983a</color>
+    <color name="notes_red_lightUi">#ff7979</color>
+
+    <color name="notes_default_darkUi">#1C1C1C</color>
+    <color name="notes_yellow_darkUi">#f6b93b</color>
+    <color name="notes_blue_darkUi">#4a69bd</color>
+    <color name="notes_teal_darkUi">#60a3bc</color>
+    <color name="notes_orange_darkUi">#e58e26</color>
+    <color name="notes_red_darkUi">#eb4d4b</color>
+
 </resources>

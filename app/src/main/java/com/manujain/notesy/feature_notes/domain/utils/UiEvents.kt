@@ -1,5 +1,6 @@
 package com.manujain.notesy.feature_notes.domain.utils
 
+import com.manujain.notesy.core.theme.model.NotesyBackground
 import com.manujain.notesy.feature_notes.domain.model.Note
 
 sealed class NotesUiEvent {
@@ -8,10 +9,10 @@ sealed class NotesUiEvent {
     object RestoreNote : NotesUiEvent()
 }
 
-sealed class AddEditNoteUiEvent {
-    object DeleteNote : AddEditNoteUiEvent()
-    object AddNote : AddEditNoteUiEvent()
-    class OnColorChange(val color: Int) : AddEditNoteUiEvent()
-    class OnTitleChange(val title: String) : AddEditNoteUiEvent()
-    class OnContentChange(val content: String) : AddEditNoteUiEvent()
+sealed class ComposeNoteUiEvent {
+    object DeleteNote : ComposeNoteUiEvent()
+    object AddNote : ComposeNoteUiEvent()
+    class OnColorChange(val color: NotesyBackground) : ComposeNoteUiEvent()
+    class OnTitleChange(val title: String) : ComposeNoteUiEvent()
+    class OnContentChange(val content: String) : ComposeNoteUiEvent()
 }

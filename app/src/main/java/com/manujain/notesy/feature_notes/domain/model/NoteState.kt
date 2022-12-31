@@ -1,10 +1,10 @@
 package com.manujain.notesy.feature_notes.domain.model
 
-import android.graphics.Color
+import com.manujain.notesy.core.theme.model.NotesyBackground
 
 data class NoteState(
     val title: String = "",
     val content: String = "",
-    val color: Int = Color.parseColor(Note.colors.random()),
+    val color: NotesyBackground = NotesyBackground.DEFAULT,
     val isLoading: Boolean = false
 )

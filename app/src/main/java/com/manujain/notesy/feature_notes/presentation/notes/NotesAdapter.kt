@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.manujain.notesy.databinding.NoteViewHolderBinding
+import com.manujain.notesy.databinding.ViewholderNoteBinding
 import com.manujain.notesy.feature_notes.domain.model.Note
 
 interface OnNoteItemUserActivityListener {
@@ -22,7 +22,7 @@ class NotesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val binding = NoteViewHolderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ViewholderNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NoteViewHolder(binding)
     }
 
@@ -36,10 +36,10 @@ class NotesAdapter(
         userActivityListener.onNoteItemDeleted(note = currentList[position])
     }
 
-    class NoteViewHolder(private val binding: NoteViewHolderBinding) : RecyclerView.ViewHolder(binding.root) {
+    class NoteViewHolder(private val binding: ViewholderNoteBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(note: Note, listener: OnNoteItemUserActivityListener) {
             binding.noteTitle.text = note.title
-            binding.colorChip.setBackgroundColor(note.color)
+            // binding.colorChip.setBackgroundColor(NotesyColorPalette.getColor(note.color, true).toColorInt())
             binding.root.setOnClickListener {
                 listener.onNoteItemClicked(note)
             }
