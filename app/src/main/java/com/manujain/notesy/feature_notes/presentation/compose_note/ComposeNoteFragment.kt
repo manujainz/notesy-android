@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -47,7 +46,6 @@ class ComposeNoteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initUi()
         initObservers()
-        Toast.makeText(requireActivity(), requireActivity().supportFragmentManager.fragments.count().toString(), Toast.LENGTH_LONG).show()
     }
 
     private fun initUi() {
@@ -87,7 +85,7 @@ class ComposeNoteFragment : Fragment() {
                     if (!noteState.isLoading) {
                         binding.titleEditText.setText(noteState.title)
                         binding.contentEditText.setText(noteState.content)
-                        setBackground(backgroundVM.getColor(noteState.color))
+                        backgroundVM.updateBackground(noteState.color)
                         // INFO: Cancel collecting flow when existing note (if any) is retrieved
                         this.cancel(CancellationException("Note content retrieved. Upstream not required"))
                     }
@@ -95,8 +93,8 @@ class ComposeNoteFragment : Fragment() {
             }
 
             lifecycleScope.launch {
-                backgroundVM.selectedColor.collectLatest { background ->
-                    composeVM.onEvent(ComposeNoteUiEvent.OnColorChange(background))
+                backgroundVM.selectedBackground.collectLatest { background ->
+                    composeVM.onEvent(ComposeNoteUiEvent.OnBackgroundChange(background))
                     setBackground(backgroundVM.getColor(background))
                 }
             }

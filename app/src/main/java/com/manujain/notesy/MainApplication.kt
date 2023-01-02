@@ -8,12 +8,12 @@ import timber.log.Timber
 class MainApplication : Application() {
 
     companion object {
-        lateinit var instance: MainApplication
+        lateinit var INSTANCE: MainApplication
     }
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
+        INSTANCE = this
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

@@ -56,7 +56,7 @@ class ComposeNoteViewModel @Inject constructor(
             is ComposeNoteUiEvent.DeleteNote -> { currentNote?.let { deleteNote(currentNote!!) } }
             is ComposeNoteUiEvent.OnTitleChange -> _noteState.value = noteState.value.copy(title = event.title)
             is ComposeNoteUiEvent.OnContentChange -> _noteState.value = noteState.value.copy(content = event.content)
-            is ComposeNoteUiEvent.OnColorChange -> {
+            is ComposeNoteUiEvent.OnBackgroundChange -> {
                 _noteState.value = noteState.value.copy(color = event.color)
             }
             is ComposeNoteUiEvent.AddNote -> {

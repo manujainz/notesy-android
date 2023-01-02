@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary_dark_ui</item>
         <item name="colorPrimaryVariant">@color/primary_variant_dark_ui</item>
-        <item name="colorOnPrimary">@color/textColor_primary_darkUi</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary_dark_ui</item>
         <item name="colorSecondaryVariant">@color/secondary_variant_dark_ui</item>

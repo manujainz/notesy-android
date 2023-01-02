@@ -12,7 +12,7 @@ sealed class NotesUiEvent {
 sealed class ComposeNoteUiEvent {
     object DeleteNote : ComposeNoteUiEvent()
     object AddNote : ComposeNoteUiEvent()
-    class OnColorChange(val color: NotesyBackground) : ComposeNoteUiEvent()
+    class OnBackgroundChange(val color: NotesyBackground) : ComposeNoteUiEvent()
     class OnTitleChange(val title: String) : ComposeNoteUiEvent()
     class OnContentChange(val content: String) : ComposeNoteUiEvent()
 }

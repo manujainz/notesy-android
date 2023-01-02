@@ -8,10 +8,25 @@
         android:id="@+id/colorCircle"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/shape_color_selection_circle"
+        android:background="@drawable/shape_oval"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/shape_outline_stroke"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/selectedTickMark"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_tick"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

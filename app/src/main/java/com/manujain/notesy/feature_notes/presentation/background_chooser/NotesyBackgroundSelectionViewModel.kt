@@ -13,14 +13,19 @@ class NotesyBackgroundSelectionViewModel @Inject constructor(
     private val backgroundProvider: NotesyBackgroundProvider
 ) : ViewModel() {
 
-    private val _selectedColor = MutableStateFlow(NotesyBackground.DEFAULT)
-    val selectedColor = _selectedColor.asStateFlow()
+    private val _selectedBackground = MutableStateFlow(NotesyBackground.DEFAULT)
+    val selectedBackground = _selectedBackground.asStateFlow()
 
-    fun updateColor(color: NotesyBackground) {
-        _selectedColor.value = color
+    fun updateBackground(color: NotesyBackground) {
+        _selectedBackground.value = color
     }
 
     fun getBackgrounds() = backgroundProvider.getBackgrounds()
+
+    fun getSelectableBackgrounds() = getBackgrounds().map { background ->
+        val isSelected = selectedBackground.value == background
+        SelectableNotesyBackground(background, isSelected)
+    }.toMutableList()
 
     fun getComplementColor(background: NotesyBackground) = backgroundProvider.getComplementColor(background)
 
