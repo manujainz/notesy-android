@@ -22,7 +22,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideApplication() = MainApplication.instance
+    fun provideApplication() = MainApplication.INSTANCE
 
     @Provides
     fun provideNotesDatabase(app: MainApplication): NotesDatabase {

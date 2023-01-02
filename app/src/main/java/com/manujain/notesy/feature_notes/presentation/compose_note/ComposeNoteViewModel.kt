@@ -1,16 +1,16 @@
-package com.manujain.notesy.feature_notes.presentation.addeditnotes
+package com.manujain.notesy.feature_notes.presentation.compose_note
 
-import android.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manujain.notesy.core.isDiff
+import com.manujain.notesy.core.theme.model.NotesyBackground
 import com.manujain.notesy.feature_notes.domain.model.InvalidNoteException
 import com.manujain.notesy.feature_notes.domain.model.Note
 import com.manujain.notesy.feature_notes.domain.model.Note.Companion.NOTE_ID
 import com.manujain.notesy.feature_notes.domain.model.NoteState
 import com.manujain.notesy.feature_notes.domain.usecase.NotesUsecase
-import com.manujain.notesy.feature_notes.domain.utils.AddEditNoteUiEvent
+import com.manujain.notesy.feature_notes.domain.utils.ComposeNoteUiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import javax.inject.Inject
@@ -22,16 +22,13 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @HiltViewModel
-class AddEditNoteViewModel @Inject constructor(
+class ComposeNoteViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val notesUseCase: NotesUsecase,
 ) : ViewModel() {
 
     private val _noteState = MutableStateFlow(NoteState(isLoading = true))
     val noteState = _noteState.asStateFlow()
-
-    private val _colorState = MutableStateFlow(Color.BLACK)
-    val colorState = _colorState.asStateFlow()
 
     private var currentNote: Note? = null
 
@@ -41,7 +38,6 @@ class AddEditNoteViewModel @Inject constructor(
             viewModelScope.launch {
                 notesUseCase.getNote(noteId).also { note ->
                     currentNote = note
-                    _colorState.value = note.color
                     _noteState.value = noteState.value.copy(
                         title = note.title,
                         color = note.color,
@@ -51,20 +47,19 @@ class AddEditNoteViewModel @Inject constructor(
                 }
             }
         } else {
-            _noteState.value = NoteState(color = colorState.value)
+            _noteState.value = NoteState(color = NotesyBackground.DEFAULT)
         }
     }
 
-    fun onEvent(event: AddEditNoteUiEvent) {
+    fun onEvent(event: ComposeNoteUiEvent) {
         when (event) {
-            is AddEditNoteUiEvent.DeleteNote -> { currentNote?.let { deleteNote(currentNote!!) } }
-            is AddEditNoteUiEvent.OnTitleChange -> _noteState.value = noteState.value.copy(title = event.title)
-            is AddEditNoteUiEvent.OnContentChange -> _noteState.value = noteState.value.copy(content = event.content)
-            is AddEditNoteUiEvent.OnColorChange -> {
+            is ComposeNoteUiEvent.DeleteNote -> { currentNote?.let { deleteNote(currentNote!!) } }
+            is ComposeNoteUiEvent.OnTitleChange -> _noteState.value = noteState.value.copy(title = event.title)
+            is ComposeNoteUiEvent.OnContentChange -> _noteState.value = noteState.value.copy(content = event.content)
+            is ComposeNoteUiEvent.OnBackgroundChange -> {
                 _noteState.value = noteState.value.copy(color = event.color)
-                _colorState.value = event.color
             }
-            is AddEditNoteUiEvent.AddNote -> {
+            is ComposeNoteUiEvent.AddNote -> {
                 if (currentNote.isDiff(noteState.value)) {
                     addNote(noteState.value, currentNote)
                 }

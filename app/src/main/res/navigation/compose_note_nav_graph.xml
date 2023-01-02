@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/composeNoteFragment"
+    android:id="@+id/compose_note_nav_graph">
+
+    <dialog
+        android:id="@+id/colorSelectionBottomSheetFragment"
+        tools:layout="@layout/bottomsheet_background_selection"
+        android:name="com.manujain.notesy.feature_notes.presentation.background_chooser.NotesyBackgroundChooserBottomSheet" />
+    <fragment
+        android:id="@+id/composeNoteFragment"
+        android:name="com.manujain.notesy.feature_notes.presentation.compose_note.ComposeNoteFragment"
+        tools:layout="@layout/fragment_compose_note">
+        <action
+            android:id="@+id/to_colorSelectionBottomSheet"
+            app:destination="@id/colorSelectionBottomSheetFragment" />
+    </fragment>
+
+</navigation>

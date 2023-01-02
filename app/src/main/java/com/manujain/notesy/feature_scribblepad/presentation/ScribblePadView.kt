@@ -43,13 +43,13 @@ class ScribblePadView(context: Context, attrs: AttributeSet?) : CardView(context
         scope?.launch {
             viewModel.scribble.collectLatest { scribble ->
                 Timber.d("$TAG Scribble fetched. Updating...")
-                binding.scribbleEditText.setText(scribble.data)
+                binding.scribbleInput.setText(scribble.data)
                 invalidate()
                 cancel("Stored Scribble fetched. Not observing anymore.")
             }
         }
 
-        binding.scribbleEditText.doAfterTextChanged {
+        binding.scribbleInput.doAfterTextChanged {
             viewModel.onScribbleUpdate(it.toString())
         }
     }

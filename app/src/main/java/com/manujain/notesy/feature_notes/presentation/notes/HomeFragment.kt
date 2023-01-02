@@ -129,7 +129,7 @@ class HomeFragment : Fragment(), OnNoteItemUserActivityListener {
     }
 
     private fun navigateToAddEditNoteFragment(noteId: String? = null) {
-        val action = HomeFragmentDirections.actionHomeFragmentToAddEditNoteFragment(noteId)
+        val action = HomeFragmentDirections.actionHomeFragmentToComposeNoteFragment(noteId)
         findNavController().navigate(action)
     }
 

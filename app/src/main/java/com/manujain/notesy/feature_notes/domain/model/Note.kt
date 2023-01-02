@@ -1,30 +1,20 @@
 package com.manujain.notesy.feature_notes.domain.model
 
-import android.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.manujain.notesy.core.theme.model.NotesyBackground
 
 @Entity
 data class Note(
     val title: String,
     val content: String,
-    val color: Int,
+    val color: NotesyBackground,
     val created: Long,
     val lastModified: Long,
     @PrimaryKey
     val id: String
 ) {
     companion object {
-        val colors = listOf(
-            Color.RED,
-            Color.BLUE,
-            Color.CYAN,
-            Color.LTGRAY,
-            Color.MAGENTA,
-            Color.YELLOW,
-            Color.WHITE
-        )
-
         const val NOTE_ID = "noteId"
     }
 }

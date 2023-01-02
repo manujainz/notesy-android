@@ -9,8 +9,8 @@ class SecurePrefScribbleDataStore(context: Context) : ScribbleDataStore {
     private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
     private val mainKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
 
-    private val sharedPrefsFile: String = "scribble_pad_pref"
-    private val sharedPrefsScribbleKey = "scribble"
+    private val sharedPrefsFile: String = "scribblepad_pref"
+    private val sharedPrefsScribbleKey = "scribble_data"
 
     private val sharedPreferences by lazy {
         EncryptedSharedPreferences.create(

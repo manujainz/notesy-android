@@ -1,10 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="primary_dark_ui">#121212</color>
+    <color name="primary_variant_dark_ui">#1C1C1C</color>
+    <color name="primary_light_ui">#FFFFFF</color>
+    <color name="primary_variant_lightUi">#F7F7F7</color>
+
+    <color name="secondary_dark_ui">#1e272e</color>
+    <color name="secondary_variant_dark_ui">#485460</color>
+    <color name="secondary_light_ui">#808e9b</color>
+    <color name="secondary_variant_light_ui">#d2dae2</color>
+
+    <color name="textColor_primary_darkUi">#cc8e35</color>
+    <color name="textColor_secondary_darkUi">#B2B2B2</color>
+    <color name="textColor_primary_lightUi">#121212</color>
+    <color name="textColor_secondary_lightUi">#545454</color>
+
+    <color name="scribble_container">#fdcb6e</color>
+
+    <!--    notes french color palette-->
+    <color name="notes_default_lightUi">#F7F7F7</color>
+    <color name="notes_yellow_lightUi">#fad390</color>
+    <color name="notes_blue_lightUi">#6a89cc</color>
+    <color name="notes_teal_lightUi">#82ccdd</color>
+    <color name="notes_orange_lightUi">#fa983a</color>
+    <color name="notes_red_lightUi">#ff7979</color>
+
+    <color name="notes_default_darkUi">#1C1C1C</color>
+    <color name="notes_yellow_darkUi">#f6b93b</color>
+    <color name="notes_blue_darkUi">#4a69bd</color>
+    <color name="notes_teal_darkUi">#60a3bc</color>
+    <color name="notes_orange_darkUi">#e58e26</color>
+    <color name="notes_red_darkUi">#eb4d4b</color>
+
 </resources>

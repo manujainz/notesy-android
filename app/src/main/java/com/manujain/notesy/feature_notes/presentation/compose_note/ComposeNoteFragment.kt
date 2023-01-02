@@ -1,4 +1,4 @@
-package com.manujain.notesy.feature_notes.presentation.addeditnotes
+package com.manujain.notesy.feature_notes.presentation.compose_note
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
+import com.manujain.notesy.R
 import com.manujain.notesy.core.launchCoroutineOnStart
-import com.manujain.notesy.databinding.FragmentAddEditNoteBinding
-import com.manujain.notesy.feature_notes.domain.model.Note
-import com.manujain.notesy.feature_notes.domain.utils.AddEditNoteUiEvent
+import com.manujain.notesy.databinding.FragmentComposeNoteBinding
+import com.manujain.notesy.feature_notes.domain.utils.ComposeNoteUiEvent
+import com.manujain.notesy.feature_notes.presentation.background_chooser.NotesyBackgroundSelectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.cancel
@@ -22,12 +24,13 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class AddEditNoteFragment : Fragment() {
+class ComposeNoteFragment : Fragment() {
 
-    private var _binding: FragmentAddEditNoteBinding? = null
+    private var _binding: FragmentComposeNoteBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<AddEditNoteViewModel>()
+    private val composeVM by viewModels<ComposeNoteViewModel>()
+    private val backgroundVM: NotesyBackgroundSelectionViewModel by navGraphViewModels(R.id.compose_note_nav_graph) { defaultViewModelProviderFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +38,7 @@ class AddEditNoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        _binding = FragmentAddEditNoteBinding.inflate(inflater, container, false)
+        _binding = FragmentComposeNoteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,19 +50,20 @@ class AddEditNoteFragment : Fragment() {
 
     private fun initUi() {
         binding.titleEditText.doAfterTextChanged { text ->
-            viewModel.onEvent(
-                AddEditNoteUiEvent.OnTitleChange(text.toString())
+            composeVM.onEvent(
+                ComposeNoteUiEvent.OnTitleChange(text.toString())
             )
         }
 
         binding.contentEditText.doAfterTextChanged { text ->
-            viewModel.onEvent(
-                AddEditNoteUiEvent.OnContentChange(text.toString())
+            composeVM.onEvent(
+                ComposeNoteUiEvent.OnContentChange(text.toString())
             )
         }
 
         binding.switchColor.setOnClickListener {
-            viewModel.onEvent(AddEditNoteUiEvent.OnColorChange(Note.colors.random()))
+            val action = ComposeNoteFragmentDirections.toColorSelectionBottomSheet()
+            findNavController().navigate(action)
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -67,7 +71,7 @@ class AddEditNoteFragment : Fragment() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     Timber.d("Back Button Pressed. Add Note Event dispatched.")
-                    viewModel.onEvent(AddEditNoteUiEvent.AddNote)
+                    composeVM.onEvent(ComposeNoteUiEvent.AddNote)
                     findNavController().popBackStack()
                 }
             }
@@ -77,11 +81,11 @@ class AddEditNoteFragment : Fragment() {
     private fun initObservers() {
         launchCoroutineOnStart {
             lifecycleScope.launch {
-                viewModel.noteState.collectLatest { noteState ->
+                composeVM.noteState.collectLatest { noteState ->
                     if (!noteState.isLoading) {
                         binding.titleEditText.setText(noteState.title)
                         binding.contentEditText.setText(noteState.content)
-                        setBackground(noteState.color)
+                        backgroundVM.updateBackground(noteState.color)
                         // INFO: Cancel collecting flow when existing note (if any) is retrieved
                         this.cancel(CancellationException("Note content retrieved. Upstream not required"))
                     }
@@ -89,8 +93,9 @@ class AddEditNoteFragment : Fragment() {
             }
 
             lifecycleScope.launch {
-                viewModel.colorState.collectLatest { color ->
-                    setBackground(color)
+                backgroundVM.selectedBackground.collectLatest { background ->
+                    composeVM.onEvent(ComposeNoteUiEvent.OnBackgroundChange(background))
+                    setBackground(backgroundVM.getColor(background))
                 }
             }
         }

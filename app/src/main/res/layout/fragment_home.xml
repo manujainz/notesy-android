@@ -2,29 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:textSize="24sp"
-        android:text="@string/app_name"
-        android:fontFamily="sans-serif-light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.manujain.notesy.feature_scribblepad.presentation.ScribblePadView
-        android:id="@+id/scribblePad"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+    <include layout="@layout/layout_home_header"/>
 
     <Spinner
         android:id="@+id/switchNotesOrder"
@@ -34,7 +16,7 @@
         android:layout_marginEnd="24dp"
         android:contentDescription="@string/order"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scribblePad" />
+        app:layout_constraintTop_toBottomOf="@+id/homeHeader" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notesRV"
