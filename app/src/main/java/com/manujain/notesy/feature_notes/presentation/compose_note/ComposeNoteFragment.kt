@@ -66,13 +66,15 @@ class ComposeNoteFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        binding.appBar.backButton.setOnClickListener {
+            handleBackPress()
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    Timber.d("Back Button Pressed. Add Note Event dispatched.")
-                    composeVM.onEvent(ComposeNoteUiEvent.AddNote)
-                    findNavController().popBackStack()
+                    handleBackPress()
                 }
             }
         )
@@ -99,6 +101,12 @@ class ComposeNoteFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun handleBackPress() {
+        Timber.d("Back Button Pressed. Add Note Event dispatched.")
+        composeVM.onEvent(ComposeNoteUiEvent.AddNote)
+        findNavController().popBackStack()
     }
 
     private fun setBackground(color: Int) {

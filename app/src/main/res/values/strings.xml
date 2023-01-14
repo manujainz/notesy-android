@@ -7,5 +7,7 @@
     <string name="order">Order</string>
     <string name="restored">Restored</string>
     <string name="note_deleted">Note Deleted</string>
+    <string name="title">Title</string>
+    <string name="compose">Compose</string>
 
 </resources>

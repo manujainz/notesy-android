@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/secondary_variant_light_ui</item>
         <item name="colorOnSecondary">@color/textColor_secondary_lightUi</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorSecondary</item>
+        <item name="android:statusBarColor">@null</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
