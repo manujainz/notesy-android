@@ -10,10 +10,8 @@ import com.manujain.notesy.MainApplication
 import com.manujain.notesy.core.theme.model.NotesyBackground
 import com.manujain.notesy.core.theme.repository.NotesyBackgroundProvider
 import com.manujain.notesy.databinding.ViewholderNotesyBackgroundBinding
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
+import com.manujain.notesy.di.NotesyBackgroundProviderEntryPoint
 import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.components.SingletonComponent
 
 data class SelectableNotesyBackground(
     val background: NotesyBackground,
@@ -24,17 +22,11 @@ interface OnColorSelectionListener {
     fun onBackgroundSelected(background: NotesyBackground)
 }
 
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-interface NotesyColorAdapterEntryPoint {
-    fun getNotesyBackgroundProvider(): NotesyBackgroundProvider
-}
-
 class NotesyBackgroundColorAdapter(
     private val listener: OnColorSelectionListener
 ) : ListAdapter<SelectableNotesyBackground, NotesyBackgroundColorAdapter.ColorViewHolder>(DIFF_CALLBACK) {
 
-    private val hiltEntryPoint = EntryPointAccessors.fromApplication(MainApplication.INSTANCE, NotesyColorAdapterEntryPoint::class.java)
+    private val hiltEntryPoint = EntryPointAccessors.fromApplication(MainApplication.INSTANCE, NotesyBackgroundProviderEntryPoint::class.java)
     private val backgroundProvider = hiltEntryPoint.getNotesyBackgroundProvider()
 
     init {

@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.manujain.notesy.R
@@ -21,6 +21,7 @@ import com.manujain.notesy.databinding.FragmentHomeBinding
 import com.manujain.notesy.feature_notes.domain.model.Note
 import com.manujain.notesy.feature_notes.domain.utils.NotesUiEvent
 import com.manujain.notesy.feature_notes.domain.utils.OrderType
+import com.manujain.notesy.feature_notes.presentation.background_chooser.SpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -54,8 +55,9 @@ class HomeFragment : Fragment(), OnNoteItemUserActivityListener {
     private fun initNotesUi() {
         // Notes List
         binding.notesRV.apply {
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = notesAdapter
+            addItemDecoration(SpacingItemDecoration(18, 18))
             ItemTouchHelper(
                 NoteSwipeHandler { position ->
                     notesAdapter.deleteNote(position)

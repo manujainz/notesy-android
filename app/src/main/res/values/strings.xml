@@ -9,5 +9,6 @@
     <string name="note_deleted">Note Deleted</string>
     <string name="title">Title</string>
     <string name="compose">Compose</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tellus nisl, dignissim eu commodo nec, egestas vel nunc.</string>
 
 </resources>

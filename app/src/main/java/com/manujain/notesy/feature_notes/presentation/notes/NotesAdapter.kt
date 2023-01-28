@@ -1,12 +1,17 @@
 package com.manujain.notesy.feature_notes.presentation.notes
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.manujain.notesy.MainApplication
+import com.manujain.notesy.core.theme.repository.NotesyBackgroundProvider
 import com.manujain.notesy.databinding.ViewholderNoteBinding
+import com.manujain.notesy.di.NotesyBackgroundProviderEntryPoint
 import com.manujain.notesy.feature_notes.domain.model.Note
+import dagger.hilt.android.EntryPointAccessors
 
 interface OnNoteItemUserActivityListener {
     fun onNoteItemClicked(note: Note)
@@ -16,6 +21,9 @@ interface OnNoteItemUserActivityListener {
 class NotesAdapter(
     private val userActivityListener: OnNoteItemUserActivityListener
 ) : ListAdapter<Note, NotesAdapter.NoteViewHolder>(DIFF_CALLBACK) {
+
+    private val hiltEntryPoint = EntryPointAccessors.fromApplication(MainApplication.INSTANCE, NotesyBackgroundProviderEntryPoint::class.java)
+    private val backgroundProvider = hiltEntryPoint.getNotesyBackgroundProvider()
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.ALLOW
@@ -27,7 +35,7 @@ class NotesAdapter(
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.bind(currentList[position], userActivityListener)
+        holder.bind(currentList[position], backgroundProvider, userActivityListener)
     }
 
     fun deleteNote(position: Int) {
@@ -37,9 +45,14 @@ class NotesAdapter(
     }
 
     class NoteViewHolder(private val binding: ViewholderNoteBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(note: Note, listener: OnNoteItemUserActivityListener) {
+        fun bind(
+            note: Note,
+            backgroundProvider: NotesyBackgroundProvider,
+            listener: OnNoteItemUserActivityListener
+        ) {
             binding.noteTitle.text = note.title
-            // binding.colorChip.setBackgroundColor(NotesyColorPalette.getColor(note.color, true).toColorInt())
+            binding.noteContent.text = note.content
+            binding.container.backgroundTintList = ColorStateList.valueOf(backgroundProvider.getColor(note.color))
             binding.root.setOnClickListener {
                 listener.onNoteItemClicked(note)
             }
