@@ -29,6 +29,8 @@ class NotesViewModel @Inject constructor(
     private var currentOrder: NotesOrder = NotesOrder.Date(OrderType.DESCENDING)
     private var recentlyDeletedNote: Note? = null
 
+    var nestedScrollViewPos = 0
+
     init {
         getNotes(currentOrder)
     }

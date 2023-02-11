@@ -14,7 +14,12 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_composeNoteFragment"
-            app:destination="@id/compose_note_nav_graph">
+            app:destination="@id/compose_note_nav_graph"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right">
             <argument
                 android:name="noteId"
                 app:argType="string"

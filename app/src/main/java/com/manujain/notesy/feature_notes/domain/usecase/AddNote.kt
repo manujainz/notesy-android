@@ -13,12 +13,8 @@ class AddNote(
 ) {
     @Throws(InvalidNoteException::class)
     suspend operator fun invoke(note: Note) {
-        if (note.title.isBlank()) {
-            throw InvalidNoteException("Invalid Note. Title is empty")
-        }
-
-        if (note.content.isBlank()) {
-            throw InvalidNoteException("Invalid Note. Content is empty.")
+        if (note.title.isBlank() && note.content.isBlank()) {
+            throw InvalidNoteException("Invalid Note. Title and Content is empty.")
         }
 
         withContext(dispatcher) {

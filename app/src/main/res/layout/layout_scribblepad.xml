@@ -18,6 +18,7 @@
             android:id="@+id/scribbleInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/lufga_regular"
             android:inputType="textMultiLine|textNoSuggestions"
             android:background="@android:color/transparent"
             android:textColor="@color/black" />

@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.manujain.notesy.R
+import com.manujain.notesy.core.adjustPaddingWithStatusBar
 import com.manujain.notesy.core.launchCoroutineOnStart
 import com.manujain.notesy.databinding.FragmentComposeNoteBinding
 import com.manujain.notesy.feature_notes.domain.utils.ComposeNoteUiEvent
@@ -39,6 +40,7 @@ class ComposeNoteFragment : Fragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentComposeNoteBinding.inflate(inflater, container, false)
+        adjustPaddingWithStatusBar(binding.composeParent)
         return binding.root
     }
 

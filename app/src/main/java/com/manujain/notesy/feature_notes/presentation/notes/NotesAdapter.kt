@@ -2,6 +2,7 @@ package com.manujain.notesy.feature_notes.presentation.notes
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -53,6 +54,11 @@ class NotesAdapter(
             binding.noteTitle.text = note.title
             binding.noteContent.text = note.content
             binding.container.backgroundTintList = ColorStateList.valueOf(backgroundProvider.getColor(note.color))
+
+            if (note.title.isBlank()) {
+                binding.noteTitle.visibility = View.GONE
+            }
+
             binding.root.setOnClickListener {
                 listener.onNoteItemClicked(note)
             }

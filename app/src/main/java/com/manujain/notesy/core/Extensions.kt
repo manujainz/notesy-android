@@ -44,3 +44,16 @@ fun Fragment.launchCoroutineOnStart(action: () -> Unit) {
         }
     }
 }
+
+fun Fragment.getStatusBarHeight(): Int {
+    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+    return if (resourceId > 0) {
+        resources.getDimensionPixelSize(resourceId)
+    } else {
+        0
+    }
+}
+
+fun Fragment.adjustPaddingWithStatusBar(view: View) {
+    view.setPadding(0, getStatusBarHeight(), 0, 0)
+}

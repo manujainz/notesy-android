@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.manujain.notesy.R
+import com.manujain.notesy.core.adjustPaddingWithStatusBar
 import com.manujain.notesy.core.getNotesOrderFromStr
 import com.manujain.notesy.core.launchCoroutineOnStart
 import com.manujain.notesy.core.selected
@@ -23,6 +24,7 @@ import com.manujain.notesy.feature_notes.domain.utils.NotesUiEvent
 import com.manujain.notesy.feature_notes.domain.utils.OrderType
 import com.manujain.notesy.feature_notes.presentation.background_chooser.SpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -42,7 +44,17 @@ class HomeFragment : Fragment(), OnNoteItemUserActivityListener {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        adjustPaddingWithStatusBar(binding.homeParent)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.nestedScrollView.post(
+            Runnable {
+                binding.nestedScrollView.scrollTo(0, notesViewModel.nestedScrollViewPos)
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,6 +62,11 @@ class HomeFragment : Fragment(), OnNoteItemUserActivityListener {
         initNotesUi()
         initUiControls()
         initObservers()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        notesViewModel.nestedScrollViewPos = binding.nestedScrollView.scrollY
     }
 
     private fun initNotesUi() {
