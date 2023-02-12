@@ -73,7 +73,8 @@
                 android:layout_margin="16dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="24dp"
-                android:src="@drawable/ic_launcher_background"
+                app:maxImageSize="40dp"
+                android:src="@drawable/ic_add_note_svgrepo_com"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:tint="@null" />
