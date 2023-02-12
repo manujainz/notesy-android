@@ -11,9 +11,9 @@ Welcome to Notesy, a feature-packed AI-based notes app for Android. Whether you'
 
 ## Screenshots
 <p float="left">
-  <img src="mocks/mock4.png" width="300" height="500" />
-  <img src="mocks/mock2.png" width="300" height="500" /> 
-  <img src="mocks/mock3.png" width="300" height="500"/>
+  <img src="mocks/mock4.png" width="280" height="500" />
+  <img src="mocks/mock2.png" width="280" height="500" /> 
+  <img src="mocks/mock3.png" width="280" height="500"/>
 </p>
 
 
